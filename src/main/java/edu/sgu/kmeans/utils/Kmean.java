@@ -13,16 +13,21 @@ public class Kmean {
     private static Random random= new Random();
     public static Map<Centroid, List<Record>> fit(List<Record> records, int k, Distance distance,
                                                   int maxIterations) {
-
         List<Centroid> centroids = randomCentroids(records, k);
         Map<Centroid, List<Record>> clusters = new HashMap<>();
         Map<Centroid, List<Record>> lastState = new HashMap<>();
-
         for (int i = 0; i < maxIterations; i++) {
             boolean isLastIteration = i == maxIterations - 1;
             for (Record record : records) {
                 Centroid centroid = nearestCentroid(record, centroids, distance);
                 assignToCluster(clusters, record, centroid);
+            }
+            if (clusters.size()!=centroids.size()){
+                List<Centroid> finalCentroids = centroids;
+                finalCentroids.removeAll(clusters.keySet());
+                for (Centroid centroid : finalCentroids) {
+                    clusters.put(centroid, null);
+                }
             }
             boolean shouldTerminate = isLastIteration || clusters.equals(lastState);
             lastState = clusters;
@@ -32,7 +37,6 @@ public class Kmean {
             centroids = relocateCentroids(clusters);
             clusters = new HashMap<>();
         }
-
         return lastState;
     }
     private static List<Centroid> randomCentroids(List<Record> records, int k) {

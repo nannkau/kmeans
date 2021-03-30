@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,11 +42,13 @@ public class ReduceImageUtils {
         Map<Centroid,List<Record>> kmeanMap= Kmean.fit(records,k,distance,maxIterations);
         kmeanMap.forEach((key,value)->
                 {
-                    for (Record record: value
-                         ) {
-                        Map<String,Double> map=key.getCoordinates();
-                        Color color= new Color(map.get("R").intValue(),map.get("G").intValue(),map.get("B").intValue());
-                        writeBackImage.setRGB(record.getLabel()[0],record.getLabel()[1], color.getRGB());
+                    if (value!=null){
+                        for (Record record: value
+                        ) {
+                            Map<String,Double> map=key.getCoordinates();
+                            Color color= new Color(map.get("R").intValue(),map.get("G").intValue(),map.get("B").intValue());
+                            writeBackImage.setRGB(record.getLabel()[0],record.getLabel()[1], color.getRGB());
+                        }
                     }
                 }
                 );

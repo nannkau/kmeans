@@ -28,7 +28,7 @@ public class KmeanServiceImpl implements KmeanSevice {
         try {
             File file= UploadUtils.upload(part,outdir);
             BufferedImage image= ImageIO.read(new java.io.File(outdir+"/"+file.getPath()));
-            Integer k=100-percent;
+            Integer k=30-((percent*30)/100);
             Distance distance= new EuclideanDistance();
             FileInputStream fileInputStream=ReduceImageUtils.buildImage(image,k,distance,100);
             resp.setContentType(FilenameUtils.getExtension(outdir+"/"+file.getPath()));
@@ -42,6 +42,8 @@ public class KmeanServiceImpl implements KmeanSevice {
             }
             outStream.flush();
             inStream.close();
+            java.io.File file1= new java.io.File("kmean.png");
+            file1.delete();
         } catch (IOException e) {
             e.printStackTrace();
         }
