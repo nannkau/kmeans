@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/flagments/header::header">
+        <title>Home</title>
+    </th:block>
+</head>
+<body class="materialdesign">
+<th:block th:replace="/flagments/sidebar::sidebar"></th:block>
+<div class="container text-center">
+    <form th:action="@{/}"  method="post" th:object="${imageDTO}"  id="upload" enctype="multipart/form-data">
+    <h1>Welcome to my website</h1>
+    <p class="lead">Let start with you image</p>
+    <div class="row justify-content-md-center" >
+        <div class="col-5">
+        Select your image
+        </div>
+        <div class="col-8">
+            <div class="file-button">
+                <input type="file" onchange="document.getElementById('append-small-btn').value = this.value;" th:field="*{multipartFile}" name="multipartFile">
+                <span th:if="${#fields.hasErrors('multipartFile')}" th:errors="*{multipartFile}" class="badge badge-danger left"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center" >
+        <div class="col-7 align-self-center">
+            <div class="themesaller-forms">
+                <div class="spacer-b16a">
+                    <label for="amount">Percen reduce value:</label>
+                    <input type="text" id="amount" class="slider-input">
+                </div>
+                <div class="slider-wrapper yellow-slider">
+                    <div id="mySlider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 4.8811%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 4.8811%;"></a></div>
+                </div>
+                <input hidden="hidden" name="percent" id="percent" th:field="*{percent}">
+            </div>
+        </div>
+    </div>
+        <div class="row justify-content-md-center" >
+            <div class="col-7 align-self-center">
+                <button type="submit" class="btn btn-custon-four btn-success"><span class="adminpro-icon adminpro-checked-pro"></span>Continue</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function(){
+        $( "#mySlider" ).slider({
+            range: "min",
+            value: 50,
+            min: 1,
+            max: 80,
+            slide: function(event, ui) {
+                if(ui!=null){
+                    $("#percent").val(ui.value);
+                    $("#amount").val(ui.value+" %");
+                }
+            }
+        });
+    });
+
+</script>
+<th:block th:replace="/flagments/footer::footer"></th:block>
+</body>
+</html>
