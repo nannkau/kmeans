@@ -22,13 +22,6 @@ public class Kmean {
                 Centroid centroid = nearestCentroid(record, centroids, distance);
                 assignToCluster(clusters, record, centroid);
             }
-            if (clusters.size()!=centroids.size()){
-                List<Centroid> finalCentroids = centroids;
-                finalCentroids.removeAll(clusters.keySet());
-                for (Centroid centroid : finalCentroids) {
-                    clusters.put(centroid, null);
-                }
-            }
             boolean shouldTerminate = isLastIteration || clusters.equals(lastState);
             lastState = clusters;
             if (shouldTerminate) {
